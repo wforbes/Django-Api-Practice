@@ -174,3 +174,13 @@ To reduce content here in the readme, check out the fourth commit of this repo f
 - See this commit's file changes for details on this
 
 (End of fifth commit)
+
+### Class-based API Views
+
+See this commit's changes for details.
+
+- In the `practice_api/views.py` file we can replace the functions that provide the Article views with a class that extends the `rest_framework.views.APIView` class.
+- This removes the need for the api_view decorator, as the APIView class provides this web ui functionality.
+- We can copy/paste in the body code from the view functions, creating functions in it from the 'if' bodies in the old functions into new class functions like get(), post(), put(), and delete().
+- We then replace the url pattern in `practice_api/urls.py` with one that uses this new api class we created, calling the `.as_view()` function in it's path argument.
+- For this to work seamlessly, we need to use a ModelSerializer for the serializer class involved with the view.
