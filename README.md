@@ -164,3 +164,13 @@ To reduce content here in the readme, check out the fourth commit of this repo f
 - Visiting the `localhost:8000/article` url in the web browser should display all the articles in JSON format
 - Visiting the 'localhost:8000/article/1` url in the web browser should display the article with the pk id of 1 in JSON format
 - Using an http testing app like Postman we can test the POST, PUT, DELETE requests.
+
+(End of fourth commit)
+
+### api_view decorator
+
+- Using the api_view decorator on our API view functions provides a web browser UI for the API route provided by rest_framework
+- Visiting the `localhost:8000/article` route will show this web UI once the decorator is added to the views.py functions and alterations are made to use rest_framework functions like 'Response' and 'status'.
+- See this commit's file changes for details on this
+
+(End of fifth commit)

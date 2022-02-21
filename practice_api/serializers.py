@@ -22,4 +22,5 @@ class ArticleSerializer(serializers.Serializer):
 class PostSerializer(ModelSerializer):
 	class Meta:
 		model = Post
+		#fields = ['id', 'author', 'content']
 		fields = '__all__'
