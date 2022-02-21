@@ -144,3 +144,23 @@ I created a new model named 'Post' and created a ModelSerializer for it
     - `print(repr(serializer))`
 
 (End of third commit)
+
+### Function-based API views
+
+To reduce content here in the readme, check out the fourth commit of this repo for more exact details
+
+- We add a function in the `practice_api/views.py` file that handles GET and POST requests called `article_list`.
+  - GET returns all the articles.
+  - POST parses the request data, validates it, saves it in the database and returns the data with a 201 status or returns errors with a 400 status if it was invalid
+- We add a function in the same `views.py` file that handles GET, PUT, and DELETE requests for individual articles called `article_detail`
+  - GET returns one article given the desired pk
+  - PUT updates one article given it's pk and new data
+  - DELETE removes one article given it's pk
+- We create `practice_api/urls.py` file and add a url pattern for `article/` passing it the `article_list` function we just created.
+- In the main project's `urls.py` file, we add a url pattern for root and include the `practice/urls.py` file in the root url pattern.
+
+#### Testing Function-based API views
+
+- Visiting the `localhost:8000/article` url in the web browser should display all the articles in JSON format
+- Visiting the 'localhost:8000/article/1` url in the web browser should display the article with the pk id of 1 in JSON format
+- Using an http testing app like Postman we can test the POST, PUT, DELETE requests.
