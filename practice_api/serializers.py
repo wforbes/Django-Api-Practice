@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Article
+from rest_framework.serializers import ModelSerializer
+from .models import Article, Post
 
 class ArticleSerializer(serializers.Serializer):
 	title = serializers.CharField(max_length=100)
@@ -17,3 +18,8 @@ class ArticleSerializer(serializers.Serializer):
 		instance.date = validated_data.get('date', instance.date)
 		instance.save()
 		return instance
+
+class PostSerializer(ModelSerializer):
+	class Meta:
+		model = Post
+		fields = '__all__'

@@ -66,7 +66,7 @@ Following along with video: [Django REST Framework Full Course For Beginners | B
 
 ### Declaring Serializers
 
-Using serializers this way is the more manual solution, requiring the declaration of the model fields in the serializer class and working with the JSONRenderer and JSONParser in order to serialize and deserialize the data between python data types and JSON strings.
+Using serializers this way is the more manual solution, requiring the declaration of the model fields in the serializer class and adding the create/update methods manually. This requires working with the JSONRenderer and JSONParser in order to serialize and deserialize the data between python data types and JSON strings in a manual way. It appears to be the way to do things if some business logic is required or model fields should be included selectively.
 
 - In the app folder create a new file `serializers.py`
 - Within this new file, import 'serializers' from 'rest_framework`
@@ -100,9 +100,47 @@ Using serializers this way is the more manual solution, requiring the declaratio
   - Serialize the model instance data into JSON
     - `content = JSONRenderer().render(serializer.data)`
     - Now the `content` variable should contain a serialized json string of the model data
+  - Deserialize the JSON content back into Python native datatypes
+    - `import io`
+    - `stream = io.BytesIO(content)`
+    - `data = JSONParser().parse(stream)`
+    - `serializer = ArticleSerializer(data=data)`
+    - `serializer.is_valid()`
+    - `serializer.validated_data`
+    - `serializer.save()`
   - After creating a few objects, they can be serialized together in an ordered dictionary
     - `serializer = ModelNameSerializer(ModelName.objects.all(), many=True)`
-  - Get the dictionary data returned
     - `serializer.data`
 
 ( End of second commit )
+
+### Declaring ModelSerializers
+
+Using ModelSerializers requires less code duplication, where the model's fields can be all included automatically or declared individually. They include their own default create/update methods built in.
+
+- In the app folder create a new file `serializers.py` or open the existing one
+- Within this file, import 'ModelSerializer' from 'rest_framework.serializers'
+  - `from rest_framework.serializers import ModelSerializer`
+- Import the model that was just created
+  - `from .models import ModelName`
+- Add a serializer class for the model, named like `ModelNameSerializer`. Pass in the 'ModelSerializer' class imported
+  - `class ModelNameSerializer(ModelSerializer):`
+- Now all this class needs is an inner class named Meta
+  - `class Meta:`
+- Within this inner Meta class, add a model field with the intended model class as the value
+  - `model = ModelName`
+- Next add a field named 'field' with either an array of strings for the model fields to add, or a value of `__all__` to automatically include all the fields
+  - `fields = ['field1', 'field2', 'field3']`
+  - `fields = __all__`
+
+#### Testing the ModelSerializer in the Shell
+
+I created a new model named 'Post' and created a ModelSerializer for it
+
+- Now testing this can be done in the python shell with `python manage.py shell`
+  - We can use many of the same commands as the regular Serializer tests
+  - Except we can also print the representation of the serializer instance
+    - `serializer = PostSerializer()`
+    - `print(repr(serializer))`
+
+(End of third commit)
